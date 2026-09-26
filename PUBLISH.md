@@ -1,54 +1,51 @@
 # Публикация на GitHub Pages
 
-Программа уже лежит в локальном git-репозитории (сделан `git init` и первый коммит).
-Осталось выложить её на GitHub. Выбери любой путь.
+Страница уже опубликована:
 
-## Путь 1 — через браузер, без программ (проще всего)
+**https://iliasnovickov-cmd.github.io/cube-section/**
 
-1. Открой https://github.com/new
-2. **Repository name**: `cube-section`, тип — **Public**. Галочки README/.gitignore/license НЕ ставь.
-   Нажми **Create repository**.
-3. На странице пустого репозитория нажми ссылку **uploading an existing file**.
-4. Перетащи туда файлы из этой папки:
-   `index.html`, `cube-section-app.js`, `cube-section-core.js`, `cube-section-core.test.cjs`,
-   `README.md`, `PUBLISH.md`, `publish.ps1` и (если видно) `.nojekyll`.
-   Файл `.nojekyll` скрытый: включи в проводнике «Показать скрытые элементы» или просто пропусти его.
-5. Внизу нажми **Commit changes**.
-6. **Settings → Pages**: *Source* = **Deploy from a branch**, *Branch* = **main**, папка **/ (root)**,
-   нажми **Save**.
-7. Через 1–2 минуты страница откроется по адресу
-   **https://iliasnovickov-cmd.github.io/cube-section/**
+Репозиторий: https://github.com/iliasnovickov-cmd/cube-section
+(ветка `main`, папка `/`, Pages включён через API).
 
-## Путь 2 — через git
-
-В этой папке выполни:
+## Как обновить страницу
 
 ```powershell
-git remote add origin https://github.com/iliasnovickov-cmd/cube-section.git
-git push -u origin main
+git add -A
+git commit -m "что изменилось"
+git push
 ```
 
-Логин — имя пользователя GitHub, вместо пароля — **Personal Access Token**
-(GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic), scope `repo`).
-Дальше включи Pages, как в пунктах 6–7.
+GitHub пересоберёт страницу за 1–2 минуты. Состояние сборки видно здесь:
+https://github.com/iliasnovickov-cmd/cube-section/deployments
 
-## Путь 3 — скрипт
+## Если нужно опубликовать заново (другой аккаунт или другое имя)
+
+### Путь 1 — браузером, без программ
+
+1. Открой https://github.com/new — имя `cube-section`, тип **Public**, README не создавай.
+2. Нажми **uploading an existing file** и перетащи файлы из этой папки:
+   `index.html`, `cube-section-app.js`, `cube-section-core.js`, `cube-section-core.test.cjs`,
+   `README.md`, `PUBLISH.md`, `publish.ps1` и, если видно, `.nojekyll`.
+3. Нажми **Commit changes**.
+4. **Settings → Pages**: *Source* = **Deploy from a branch**, *Branch* = **main**,
+   папка **/ (root)**, затем **Save**.
+5. Через 1–2 минуты страница откроется по адресу
+   `https://<логин>.github.io/<репозиторий>/`.
+
+### Путь 2 — скриптом
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\publish.ps1
-```
-
-Если установлен `gh` (GitHub CLI), скрипт сам создаст репозиторий, запушит файлы и включит Pages.
-Если `gh` нет — сделает push и подскажет, что осталось нажать в браузере.
-Другой логин или имя репозитория передаются параметрами:
-
-```powershell
 powershell -ExecutionPolicy Bypass -File .\publish.ps1 -Login мой-логин -Repo моя-папка
 ```
 
+Если установлен `gh` (GitHub CLI) и выполнен `gh auth login`, скрипт сам создаёт репозиторий,
+отправляет файлы и включает Pages. Без `gh` он делает push и подсказывает, что нажать в браузере.
+Когда репозиторий уже создан, для обновления достаточно `git push`.
+
 ## Что важно знать
 
-- Адрес страницы: `https://<логин>.github.io/<репозиторий>/` — главный файл должен называться
-  `index.html`, поэтому страница так и названа.
-- Программа полностью автономна: без библиотек, без интернета, работает и с диска, и с Pages.
-- Все проверки можно запустить локально: `node cube-section-core.test.cjs` (229 проверок).
+- Главный файл должен называться `index.html` — поэтому страница так и названа, короткий адрес
+  репозитория работает без дополнительных ссылок.
+- Программа полностью автономна: без библиотек и интернета, работает и с диска, и с GitHub Pages.
+- Проверки на месте: `node cube-section-core.test.cjs` — 229 проверок.
